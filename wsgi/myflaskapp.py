@@ -39,9 +39,10 @@ def upload_file():
     return render_template('show_entries.html')
 
     
-@app.route('/metadata')
+@app.route('/metadata/<filename>')
 def metadata_file(filename):
-    return metadata.printMeta(UPLOAD_FOLDER + '/' + filename)
+    metadata.printMeta(app.config['UPLOAD_FOLDER'] + '/' + filename)
+    return 'hola'
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
