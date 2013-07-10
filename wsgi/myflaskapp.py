@@ -5,8 +5,11 @@ from werkzeug import secure_filename
 from flask import send_from_directory
 import metadata
 
-UPLOAD_FOLDER = "./data"
-#UPLOAD_FOLDER = os.environ['OPENSHIFT_TMP_DIR']
+if not os.environ.has_key('OPENSHIFT_TMP_DIR'):
+    UPLOAD_FOLDER = "./data"
+else:
+    UPLOAD_FOLDER = os.environ['OPENSHIFT_TMP_DIR']
+    
 ALLOWED_EXTENSIONS = set(['pdf'])
 
 app = Flask(__name__)
