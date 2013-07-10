@@ -1,11 +1,12 @@
 import os
-from flask import Flask, request, redirect, url_for
+from flask import Flask, request, redirect, url_for, \
+render_template
 from werkzeug import secure_filename
 from flask import send_from_directory
 #import metadata
 
-#UPLOAD_FOLDER = "./data"
-UPLOAD_FOLDER = os.environ['OPENSHIFT_TMP_DIR']
+UPLOAD_FOLDER = "./data"
+#UPLOAD_FOLDER = os.environ['OPENSHIFT_TMP_DIR']
 ALLOWED_EXTENSIONS = set(['pdf'])
 
 app = Flask(__name__)
@@ -32,7 +33,9 @@ def upload_file():
             
             return redirect(url_for('uploaded_file',
                                     filename=filename))
+    return render_template('show_entries.html')
 
+"""
     return '''
     <!doctype html>
     <title>Upload new File</title>
@@ -42,6 +45,7 @@ def upload_file():
          <input type=submit value=Upload>
     </form>
     '''
+"""
     
 #@app.route('/metadata')
 #def metadata_file(filename):
