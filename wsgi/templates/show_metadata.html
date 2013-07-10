@@ -1,0 +1,58 @@
+{% macro input(name, value='', type='text', size=20) -%}
+    <input type="{{ type }}" name="{{ name }}" value="{{
+        value|e }}" size="{{ size }}">
+{%- endmacro %}
+
+{% extends "layout.html" %}
+{% block body %}
+
+Sencilla herramienta para consultar y modificar metadatos de archivos pdf.
+    
+
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+
+  {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+
+  <br /><br />
+  
+  <div class="flash">1.- Selecciona fichero pdf</div>
+  <!-- Formulario de entrada de PDF -->
+  <form action="" method=post enctype=multipart/form-data>
+    <div class="form_input">
+      <div class="form_fields">
+        <input size=55 type=file name=file>
+      </div>
+      <div class="form_submit">
+        <input size=50 type=submit value="Consultar metadatos">
+      <div>
+    </div>
+   </form>
+
+  <br />
+  <!-- Listado de metadatos -->
+  {% if docInfo %}
+  <form action="/generate" method=post enctype=multipart/form-data>
+  <div class="flash">2.- Consulta/Modifica metadatos</div>
+      <ul class=entries>
+      {% for metaItem in docInfo %}
+        <li><h2>{{ metaItem }}</h2>
+        <!--<input type="text" name={{metaItem}} value={{ docInfo[metaItem]|safe }} />-->
+        {{ input(metaItem, docInfo[metaItem]) }}
+      {% else %}
+        <li><em>No se han encontrado metadatos</em>
+      {% endfor %}
+      </ul>
+      
+  <div class="flash">3.- Para modificar metadatos selecciona fichero pdf para asignarle metadatos
+  <br/>
+  * El fichero original no será modificado. Se genera una copia con los metadatos de arriba.</div>
+  <input size=55 type=file name=file>
+  <div class="form_submit">
+    <input size=50 type=submit value="Generar Pdf">
+  </div>
+  
+  </form>
+  {% endif %}
+{% endblock %}

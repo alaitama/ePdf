@@ -1,3 +1,4 @@
+import os
 import pyPdf
 from pyPdf import PdfFileReader, PdfFileWriter
 from pyPdf.generic import NameObject, createStringObject
@@ -7,6 +8,11 @@ from optparse import OptionParser
 
 OUTPUT = 'output.pdf'
 
+def getMeta(fileName):
+    pdfFile = PdfFileReader(file(fileName, 'rb'))
+    docInfo = pdfFile.getDocumentInfo()
+    return docInfo;
+
 def printMeta(fileName):
     pdfFile = PdfFileReader(file(fileName, 'rb'))
     docInfo = pdfFile.getDocumentInfo()
@@ -14,11 +20,16 @@ def printMeta(fileName):
     for metaItem in docInfo:
         print '[+] ' + metaItem + ':' + docInfo[metaItem]
         
-def modifyMeta(fileName):
+def modifyMeta(pathFile, fileNameInput, fileNameOutput):
     # There is no interface through pyPDF with which to set this other then getting
     # your hands dirty like so:
+    inputFile = os.path.join(pathFile,fileNameInput)
+    outputFile = os.path.join(pathFile,fileNameOutput)
+    print outputFile
+    
     output = PdfFileWriter()
     infoDict = output._info.getObject()
+    
     infoDict.update({
         NameObject('/Title'): createStringObject(u'title'),
         NameObject('/Author'): createStringObject(u'author'),
@@ -29,15 +40,13 @@ def modifyMeta(fileName):
 
     #inputs = [PdfFileReader(i) for i in INPUTS]
     #for input in inputs:
-    pdfFile = PdfFileReader(file(fileName, 'rb'))
+    pdfFile = PdfFileReader(file(inputFile, 'rb'))
     for page in range(pdfFile.getNumPages()):
         output.addPage(pdfFile.getPage(page))
 
-    outputStream = file(OUTPUT, 'wb')
+    outputStream = file(outputFile, 'wb')
     output.write(outputStream)
     outputStream.close()
-
-
     
 
 def main():
