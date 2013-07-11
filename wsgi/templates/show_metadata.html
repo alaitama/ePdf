@@ -1,9 +1,5 @@
-{% macro input(name, value='', type='text', size=20) -%}
-    <input type="{{ type }}" name="{{ name }}" value="{{
-        value|e }}" size="{{ size }}">
-{%- endmacro %}
-
 {% extends "layout.html" %}
+
 {% block body %}
 
 Sencilla herramienta para consultar y modificar metadatos de archivos pdf.
@@ -25,23 +21,22 @@ Sencilla herramienta para consultar y modificar metadatos de archivos pdf.
 
 
   {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
-
-  <br /><br />
   
   <div class="flash">1.- Selecciona fichero pdf</div>
   <!-- Formulario de entrada de PDF -->
   <form action="" method=post enctype=multipart/form-data>
-    <div class="form_input">
+    <div class="form_consult">
       <div class="form_fields">
-        <input size=55 type=file name=file>
+        <input size=55 type=file name=file />
       </div>
       <div class="form_submit">
-        <input size=50 type=submit value="Consultar metadatos">
-      <div>
+        <input size=50 type=submit value="Consultar metadatos" />
+      </div>
     </div>
-   </form>
+  </form>
 
-  <br />
+  <div class=separator></div>
+  
   <!-- Listado de metadatos -->
   {% if docInfo %}
   <form action="/generate" method=post enctype=multipart/form-data>
@@ -50,43 +45,30 @@ Sencilla herramienta para consultar y modificar metadatos de archivos pdf.
       {% for metaItem in docInfo %}
         <li><h2>{{ metaItem }}</h2>
         <!--<input type="text" name={{metaItem}} value={{ docInfo[metaItem]|safe }} />-->
-        {{ input(metaItem, docInfo[metaItem]) }}
+        {{ input(metaItem, docInfo[metaItem], 'text', 60) }}
       {% else %}
         <li><em>No se han encontrado metadatos</em>
       {% endfor %}
       </ul>
-      
-  <div class="flash">3.- Para modificar metadatos selecciona fichero pdf para asignarle metadatos
-  <br/>
-  * El fichero original no será modificado. Se genera una copia con los metadatos de arriba.</div>
-  <input size=55 type=file name=file>
-  <div class="form_submit">
-    <input size=50 type=submit value="Generar Pdf">
+
+  <div class=separator></div>
+  
+  <div class="flash">
+      3.- Selecciona fichero para modificar metadatos.
+  </div>
+  <div class="form_consult">
+    <input size=55 type=file name=file>
+    <div class="form_submit">
+        <input size=50 type=submit value="Generar Pdf">
+    </div>
+  </div>
+  
+  <div class=separator></div>
+  
+  <div class="flash">
+      * El fichero original no es modificado. Se genera una copia del fichero con los nuevos metadatos.
   </div>
   
   </form>
   {% endif %}
-{% endblock %}
-
-{% block footer %}
-<div class=footer>
-© 2013 ePdf.es - 
-<a href="http://flask.pocoo.org/"><img
-   src="http://flask.pocoo.org/static/badges/powered-by-flask-s.png"
-   border="0"
-   alt="powered by Flask"
-   title="powered by Flask"></a>
-   
-</div>
-
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-42386517-1', 'epdf.es');
-  ga('send', 'pageview');
-
-</script>
 {% endblock %}

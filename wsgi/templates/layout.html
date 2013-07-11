@@ -1,12 +1,21 @@
+{% macro input(name, value='', type='text', size=20) -%}
+    <input type="{{ type }}" name="{{ name }}" value="{{
+        value|e }}" size="{{ size }}">
+{%- endmacro %}
+
 <!doctype html>
 <title>ePdf.es</title>
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
-<div class=page>
+
+
+<div class="page">
   <!--h1>Flaskr</h1-->
   <h1>
+    <a href="https://www.epdf.es">
     <img src="static/epdf.png"
     onmouseover="this.src='static/epdf1.png'"
     onmouseout="this.src='static/epdf.png'"/>
+    </a>
   </h1>
   <div class=metanav>
   </div>
@@ -17,5 +26,4 @@
 </div>
 
 <!-- footer -->
-{% block footer %}
-{% endblock %}
+{% include 'footer.html' %}

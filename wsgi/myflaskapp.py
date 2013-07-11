@@ -72,7 +72,7 @@ def generate_file():
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filenameInput))
         
         #Modify metadadata file saves
-        metadata.modifyMeta(app.config['UPLOAD_FOLDER'],filenameInput, filenameOutput)
+        metadata.modifyMeta(app.config['UPLOAD_FOLDER'],filenameInput, filenameOutput, request.form)
         
     return redirect(url_for('uploaded_file', filename=filenameOutput))
     #return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
