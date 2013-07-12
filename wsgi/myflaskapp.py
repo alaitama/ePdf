@@ -38,6 +38,9 @@ def upload_file():
             
             docInfo = metadata.getMeta(app.config['UPLOAD_FOLDER'] + '/' + filename)
             
+            #Borramos fichero
+            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            
             return render_template('show_metadata.html', docInfo=docInfo)
         else:
             error = "Extension no permitida"
@@ -73,6 +76,9 @@ def generate_file():
         
         #Modify metadadata file saves
         metadata.modifyMeta(app.config['UPLOAD_FOLDER'],filenameInput, filenameOutput, request.form)
+        
+        #Delete input file from local system
+        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], filenameInput))
         
     return redirect(url_for('uploaded_file', filename=filenameOutput))
     #return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
