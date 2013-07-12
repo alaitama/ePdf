@@ -8,6 +8,6 @@ if not os.environ.has_key('OPENSHIFT_TMP_DIR'):
 else:
     TMP_DIR = os.environ['OPENSHIFT_TMP_DIR']
 
-filelist = [ f for f in os.listdir(TMP_DIR) ]
+filelist = [ f for f in os.listdir(TMP_DIR) if f.lower().endswith(".pdf") ]
 for f in filelist:
     os.remove(os.path.join(TMP_DIR, f))
